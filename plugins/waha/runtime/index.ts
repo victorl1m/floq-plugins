@@ -1,8 +1,5 @@
-import { dirname } from "node:path";
-import { fileURLToPath } from "node:url";
-import { HttpError, badRequest } from "../../errors.js";
-import { definePlugin, type PluginContext } from "../sdk.js";
-import manifest from "./plugin.json" with { type: "json" };
+import { definePlugin, type PluginContext } from "../../../shared/sdk";
+import manifest from "../plugin.json" with { type: "json" };
 import { migrations } from "./migrations.js";
 import { CHAT_ID, TEXT_MAX, WahaError, normalizeBase, parseWebhook, sendText, sessionName, verifyHmac } from "./client.js";
 
@@ -17,12 +14,11 @@ export const SEND_APPROVAL_WAIT_MS = 280_000;
 export default definePlugin({
   manifest,
   migrations,
-  dir: dirname(fileURLToPath(import.meta.url)),
   start(ctx: PluginContext) {
     /** The inbox belongs to the administrator who set the plugin up; nobody else on the runtime reads or sends. */
     async function owner(userId: string): Promise<string> {
       const o = await ctx.installOwner();
-      if (!o || o !== userId) throw new HttpError(403, "forbidden", "The WhatsApp inbox belongs to the administrator who set it up.");
+      if (!o || o !== userId) throw ctx.httpError(403, "forbidden", "The WhatsApp inbox belongs to the administrator who set it up.");
       return o;
     }
 
@@ -35,8 +31,8 @@ export default definePlugin({
       return { base, apiKey, session: sessionName(settings.session), missingSettings, missingSecrets };
     }
 
-    const chatIdOf = (v: unknown) => { if (typeof v !== "string" || !CHAT_ID.test(v)) throw badRequest("chatId is invalid", "invalid_chat"); return v; };
-    const textOf = (v: unknown) => { if (typeof v !== "string" || !v.trim() || v.length > TEXT_MAX) throw badRequest(`text must be 1-${TEXT_MAX} characters`, "invalid_text"); return v; };
+    const chatIdOf = (v: unknown) => { if (typeof v !== "string" || !CHAT_ID.test(v)) throw ctx.httpError(400, "invalid_chat", "chatId is invalid"); return v; };
+    const textOf = (v: unknown) => { if (typeof v !== "string" || !v.trim() || v.length > TEXT_MAX) throw ctx.httpError(400, "invalid_text", `text must be 1-${TEXT_MAX} characters`); return v; };
     const asObject = (b: unknown): Record<string, unknown> => (b && typeof b === "object" && !Array.isArray(b) ? (b as Record<string, unknown>) : {});
 
     async function listChats(userId: string) {
@@ -64,10 +60,10 @@ export default definePlugin({
     /** Sends through WAHA and records the outgoing message. Errors are generic: never the key, the URL or upstream text. */
     async function send(userId: string, chatId: string, text: string) {
       const c = await config(userId);
-      if (c.missingSettings.length || c.missingSecrets.length) throw new HttpError(409, "not_configured", "Set the WAHA address and the WAHA_API_KEY secret first.");
+      if (c.missingSettings.length || c.missingSecrets.length) throw ctx.httpError(409, "not_configured", "Set the WAHA address and the WAHA_API_KEY secret first.");
       let id: string | null;
       try { id = await sendText(ctx.fetchUserUrl, userId, c.base!, c.apiKey!, c.session, chatId, text); }
-      catch (error) { ctx.log.warn("send failed", { status: error instanceof WahaError ? error.status : 0 }); throw new HttpError(502, "waha_unavailable", "WAHA could not send the message."); }
+      catch (error) { ctx.log.warn("send failed", { status: error instanceof WahaError ? error.status : 0 }); throw ctx.httpError(502, "waha_unavailable", "WAHA could not send the message."); }
       const msgId = id ?? `out-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
       await store(userId, { session: c.session, chatId, msgId, fromMe: true, sender: "me", body: text, hasMedia: false, sentAt: new Date() });
       ctx.events.publish(userId, "message", { chatId, fromMe: true });

@@ -1,6 +1,5 @@
-import { HttpError } from "../../errors.js";
-import { definePlugin, type PluginContext } from "../sdk.js";
-import manifest from "./plugin.json" with { type: "json" };
+import { definePlugin, type PluginContext } from "../../../shared/sdk";
+import manifest from "../plugin.json" with { type: "json" };
 import { PAGE_SIZE, fetchBatch, mapWorkItem, normalizeOrgUrl, queryIds, stateCategories, validProject } from "./client.js";
 
 const STATE_TTL_MS = 10 * 60_000;
@@ -17,8 +16,8 @@ export default definePlugin({
       const settings = await ctx.settings.get(userId);
       const org = normalizeOrgUrl(settings.organizationUrl);
       const project = settings.project;
-      if (!pat) throw new HttpError(409, "not_configured", "Add the AZURE_DEVOPS_PAT secret first.");
-      if (!org || !validProject(project)) throw new HttpError(409, "not_configured", "Set the organization URL and the project in Settings > Plugins.");
+      if (!pat) throw ctx.httpError(409, "not_configured", "Add the AZURE_DEVOPS_PAT secret first.");
+      if (!org || !validProject(project)) throw ctx.httpError(409, "not_configured", "Set the organization URL and the project in Settings > Plugins.");
       return { pat, org, project: project.trim() };
     }
 

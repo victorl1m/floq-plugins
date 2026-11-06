@@ -1,4 +1,4 @@
-import type { PluginMigration } from "../sdk.js";
+import type { PluginMigration } from "../../../shared/sdk";
 
 /** Applied ids never change; append new migrations. `{{p}}` is the table prefix in fallback mode and empty in schema mode (`plugin_waha`). */
 export const migrations: PluginMigration[] = [

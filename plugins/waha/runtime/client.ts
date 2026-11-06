@@ -1,5 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-import type { PluginFetchResponse } from "../sdk.js";
+import type { PluginFetchResponse } from "../../../shared/sdk";
 
 export const CHAT_ID = /^[0-9A-Za-z._@-]{3,100}$/;
 export const TEXT_MAX = 4096;

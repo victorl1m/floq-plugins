@@ -1,0 +1,70 @@
+{
+  "format": 1,
+  "plugins": [
+    {
+      "id": "azure-devops",
+      "name": "Azure DevOps",
+      "version": "1.0.0",
+      "apiVersion": 1,
+      "description": "Azure DevOps work items as a read-only source in Tasks.",
+      "icon": "IconBrandAzure",
+      "scope": "user",
+      "secrets": [
+        "AZURE_DEVOPS_PAT"
+      ],
+      "network": [
+        "dev.azure.com",
+        "*.visualstudio.com"
+      ],
+      "contributes": [
+        "taskSources"
+      ],
+      "package": "https://github.com/victorl1m/floq-plugins/releases/download/azure-devops-v1.0.0/azure-devops-1.0.0.floqpkg.json",
+      "sha256": "5e7c468313524f57f6d9a0f6b7403e7e88de8f27f61f62a9e38de11bc11e095e"
+    },
+    {
+      "id": "movidesk",
+      "name": "Movidesk",
+      "version": "1.0.0",
+      "apiVersion": 1,
+      "description": "Movidesk tickets as a read-only source in Tasks.",
+      "icon": "IconHeadset",
+      "scope": "user",
+      "secrets": [
+        "MOVIDESK_TOKEN"
+      ],
+      "network": [
+        "api.movidesk.com"
+      ],
+      "contributes": [
+        "taskSources"
+      ],
+      "package": "https://github.com/victorl1m/floq-plugins/releases/download/movidesk-v1.0.0/movidesk-1.0.0.floqpkg.json",
+      "sha256": "fc089bf814ad605449ea797ed5879a3459000ff1fd330d39a3a710c90335378b"
+    },
+    {
+      "id": "waha",
+      "name": "WhatsApp (WAHA)",
+      "version": "1.0.0",
+      "apiVersion": 1,
+      "description": "A WhatsApp inbox backed by your own WAHA instance. Agents can read it; sending asks you first.",
+      "icon": "IconBrandWhatsapp",
+      "scope": "install",
+      "secrets": [
+        "WAHA_API_KEY",
+        "WAHA_WEBHOOK_HMAC"
+      ],
+      "network": [],
+      "contributes": [
+        "views",
+        "routes",
+        "internalRoutes",
+        "webhooks",
+        "skills",
+        "migrations"
+      ],
+      "package": "https://github.com/victorl1m/floq-plugins/releases/download/waha-v1.0.0/waha-1.0.0.floqpkg.json",
+      "sha256": "d171cd8c80b9cbe512a9dd7b6b5320f01c116c4cf5cb6db9f3f4498c769b53bf"
+    }
+  ]
+}

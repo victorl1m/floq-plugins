@@ -1,5 +1,5 @@
-import type { ExternalTask, StatusCategory } from "../taskSources.js";
-import type { PluginFetchResponse } from "../sdk.js";
+import type { ExternalTask, StatusCategory } from "../../../shared/task-types";
+import type { PluginFetchResponse } from "../../../shared/sdk";
 
 export const PAGE_SIZE = 50;
 /** `workitemsbatch` accepts at most 200 ids per request. */

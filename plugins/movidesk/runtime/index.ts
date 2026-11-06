@@ -1,6 +1,5 @@
-import { HttpError } from "../../errors.js";
-import { definePlugin, type PluginContext } from "../sdk.js";
-import manifest from "./plugin.json" with { type: "json" };
+import { definePlugin, type PluginContext } from "../../../shared/sdk";
+import manifest from "../plugin.json" with { type: "json" };
 import { PAGE_SIZE, filterFor, getJson, mapTicket, ticketsUrl } from "./client.js";
 
 /** Movidesk tickets as a read-only Tasks source. The token comes from the user's vault (`MOVIDESK_TOKEN`), never from settings. */
@@ -9,7 +8,7 @@ export default definePlugin({
   start(ctx: PluginContext) {
     const token = async (userId: string) => {
       const t = await ctx.secrets.get(userId, "MOVIDESK_TOKEN");
-      if (!t) throw new HttpError(409, "not_configured", "Add the MOVIDESK_TOKEN secret first.");
+      if (!t) throw ctx.httpError(409, "not_configured", "Add the MOVIDESK_TOKEN secret first.");
       return t;
     };
     const portal = async (userId: string) => {

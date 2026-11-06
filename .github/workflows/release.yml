@@ -1,0 +1,31 @@
+name: release
+# Tag a plugin release as `<id>-v<version>` (for example `movidesk-v1.0.0`). The workflow builds the package and attaches
+# `<id>-<version>.floqpkg.json` to the GitHub release with that tag: the exact URL listed in index.json.
+on:
+  push:
+    tags: ["*-v*"]
+permissions: { contents: write }
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm test
+      - run: npm run check          # fails when index.json is stale or the sha256 would not match the catalog
+      - name: Attach the package for this tag
+        env: { GH_TOKEN: "${{ github.token }}", TAG: "${{ github.ref_name }}" }
+        run: |
+          set -euo pipefail
+          id="${TAG%-v*}"; version="${TAG##*-v}"
+          file="dist/${id}-${version}.floqpkg.json"
+          test -f "$file" || { echo "no package $file for tag $TAG (does plugin.json have version $version?)"; exit 1; }
+          # the catalog entry for this id must point at this exact release asset and hash
+          node -e '
+            const i = JSON.parse(require("fs").readFileSync("index.json","utf8")).plugins.find(p => p.id === process.argv[1]);
+            const h = require("crypto").createHash("sha256").update(require("fs").readFileSync(process.argv[2])).digest("hex");
+            if (!i || i.version !== process.argv[3] || i.sha256 !== h) { console.error("index.json does not match " + process.argv[2]); process.exit(1); }
+          ' "$id" "$file" "$version"
+          gh release create "$TAG" "$file" --title "$id $version" --notes "Package for Floq: ${id} ${version}. Install it from Settings > Plugins > Browse plugins."

@@ -1,5 +1,5 @@
-import type { ExternalTask, StatusCategory } from "../taskSources.js";
-import type { PluginFetchResponse } from "../sdk.js";
+import type { ExternalTask, StatusCategory } from "../../../shared/task-types";
+import type { PluginFetchResponse } from "../../../shared/sdk";
 
 export const PAGE_SIZE = 25;
 export const DEFAULT_PORTAL = "https://app.movidesk.com";

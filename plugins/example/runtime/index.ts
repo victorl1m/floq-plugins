@@ -1,4 +1,4 @@
-import { definePlugin } from "../sdk.js";
+import { definePlugin } from "../../../shared/sdk";
 
 /** Dev-only example (registered when FLOQ_DEV_PLUGINS=1). Copy it as the starting point for a real plugin. */
 export const exampleManifest = {

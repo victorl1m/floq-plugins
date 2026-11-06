@@ -4,14 +4,27 @@ Core plugins for [Floq](https://floq.flowless.app): **Movidesk** (tickets), **Az
 
 Each plugin has `runtime/` (backend, `plugin.json` manifest), `ui/` (screens built only from the Floq plugin kit) and `tests/`.
 
-## Requirements
-A Floq checkout that includes the plugin system (`runtime/src/plugins/`, `src/plugins/`, plugin kit).
+## Install in Floq (admins)
+Settings > Plugins > **Browse plugins**. Floq's catalog URL defaults to
+`https://raw.githubusercontent.com/victorl1m/floq-plugins/main/index.json` (override with `FLOQ_PLUGIN_CATALOG` on the runtime).
+Installed plugins run with the runtime's full privileges: read the trust warning in the install dialog.
 
-## Install
+## Layout
+`plugins/<id>/{plugin.json, runtime/index.ts, ui/index.tsx, skills/, tests/}`. Runtime code gets everything from `ctx` (including `ctx.httpError`),
+UI code imports only `react`, `@/plugins/kit` and `@/plugins/sdk` (icons through `resolvePluginIcon`). `ui/` is built only when the manifest contributes views.
+`shared/` and `vendor/floq/` hold the SDK types and Floq's parsers (refresh with `scripts/sync-vendor.sh /path/to/Floq`).
+
+## Build, test, release
 ```
-./install.sh /path/to/Floq movidesk azure-devops waha
+npm install
+npm run build     # dist/<id>-<version>.floqpkg.json + dist/index.json, and rewrites ./index.json
+npm test          # builds, validates every package and the catalog with Floq's own parser, runs the built plugins against a mocked fetch
+npm run check     # fails if ./index.json is not what the build produces
 ```
-Then register the ids in `runtime/src/plugins/index.ts` and `src/plugins/index.ts`, rebuild, and enable them in Settings > Plugins. Add tokens in Secrets (`MOVIDESK_TOKEN`, `AZURE_DEVOPS_PAT`, WAHA secrets).
+Release: bump `version` in `plugin.json`, `npm run build`, commit `index.json`, tag `<id>-v<version>` and push the tag. `.github/workflows/release.yml` rebuilds,
+re-checks `index.json` against the bytes and attaches the package to the release. The build is reproducible: the same sources and esbuild version give the same sha256.
+
+The per-plugin `plugins/<id>/tests/` files are the original Floq-harness tests (`PluginHost`, PGlite); they import Floq's `dist/` and run inside a Floq checkout, not here.
 
 ## Status
 Tested with mocked network calls only. Movidesk/Azure DevOps API shapes and the WAHA webhook HMAC encoding are not yet verified against real services. See `docs/README.md` for the plugin authoring guide.

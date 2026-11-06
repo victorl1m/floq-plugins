@@ -1,0 +1,14 @@
+{
+  "name": "floq-plugins",
+  "private": true,
+  "type": "module",
+  "description": "Installable plugins for Floq: sources, build and packaging.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/build.mjs --check",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

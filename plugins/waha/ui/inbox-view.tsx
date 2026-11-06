@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { IconSend } from "@tabler/icons-react";
-import { Badge, Button, PluginPage, PluginState, Textarea, cn, toast, usePluginApi, usePluginEvent } from "@/plugins/kit";
+import { Badge, Button, PluginPage, PluginState, Textarea, cn, resolvePluginIcon, toast, usePluginApi, usePluginEvent } from "@/plugins/kit";
 import type { PluginViewProps } from "@/plugins/sdk";
+
+const IconSend = resolvePluginIcon("IconSend"); // icons come from the host kit: @tabler/icons-react is not shared with plugin bundles
 
 interface Status { configured: boolean; missingSettings: string[]; missingSecrets: string[]; session: string }
 interface Chat { chatId: string; lastBody: string; lastAt: string; total: number }

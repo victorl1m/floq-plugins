@@ -19,8 +19,8 @@
       "contributes": [
         "taskSources"
       ],
-      "package": "https://github.com/victorl1m/floq-plugins/releases/download/azure-devops-v1.0.0/azure-devops-1.0.0.floqpkg.json",
-      "sha256": "5e7c468313524f57f6d9a0f6b7403e7e88de8f27f61f62a9e38de11bc11e095e"
+      "package": "https://github.com/victorl1m/floq-plugin-azure-devops/releases/download/v1.0.0/azure-devops-1.0.0.floqpkg.json",
+      "sha256": "f140f2a0892e3d7b36ee77a66e8e817e46c673a429b0b80eb35d7a870bd79317"
     },
     {
       "id": "movidesk",
@@ -39,8 +39,8 @@
       "contributes": [
         "taskSources"
       ],
-      "package": "https://github.com/victorl1m/floq-plugins/releases/download/movidesk-v1.0.0/movidesk-1.0.0.floqpkg.json",
-      "sha256": "fc089bf814ad605449ea797ed5879a3459000ff1fd330d39a3a710c90335378b"
+      "package": "https://github.com/victorl1m/floq-plugin-movidesk/releases/download/v1.0.0/movidesk-1.0.0.floqpkg.json",
+      "sha256": "9d4a1915b82997e787d978ada6ecb36da425b62ffcc69c8f52802fddb29feec7"
     },
     {
       "id": "waha",
@@ -63,8 +63,8 @@
         "skills",
         "migrations"
       ],
-      "package": "https://github.com/victorl1m/floq-plugins/releases/download/waha-v1.0.0/waha-1.0.0.floqpkg.json",
-      "sha256": "d171cd8c80b9cbe512a9dd7b6b5320f01c116c4cf5cb6db9f3f4498c769b53bf"
+      "package": "https://github.com/victorl1m/floq-plugin-waha/releases/download/v1.0.0/waha-1.0.0.floqpkg.json",
+      "sha256": "bad0a9df6b4ef95591731bdfa0dfcbafb70669758c330647f6db0962200deade"
     }
   ]
 }

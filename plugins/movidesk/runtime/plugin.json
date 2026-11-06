@@ -1,0 +1,21 @@
+{
+  "id": "movidesk",
+  "name": "Movidesk",
+  "version": "1.0.0",
+  "apiVersion": 1,
+  "tier": "core",
+  "description": "Movidesk tickets as a read-only source in Tasks.",
+  "icon": "IconHeadset",
+  "scope": "user",
+  "secrets": [
+    { "name": "MOVIDESK_TOKEN", "description": "Movidesk API token (Settings > API in Movidesk)", "required": true }
+  ],
+  "network": { "allow": ["api.movidesk.com"] },
+  "settings": [
+    { "key": "defaultQuery", "type": "text", "label": "Default search", "description": "Search text applied when the Tasks search box is empty (matches the ticket subject, or a ticket number).", "required": false },
+    { "key": "portalUrl", "type": "url", "label": "Movidesk address", "description": "Your Movidesk address, for example https://acme.movidesk.com. Used to open tickets in the browser.", "required": false }
+  ],
+  "contributes": {
+    "taskSources": [{ "id": "tickets", "label": "Movidesk", "view": "generic" }]
+  }
+}

@@ -12,5 +12,3 @@ jobs:
         with: { node-version: 22, cache: npm }
       - run: npm ci
       - run: npm test
-      # index.json (the catalog on main) must carry the sha256 of the exact bytes a release would publish.
-      - run: npm run check

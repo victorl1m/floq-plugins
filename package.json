@@ -4,7 +4,8 @@
   "type": "module",
   "description": "Plugin catalog for Floq (index.json). Each plugin lives in its own floq-plugin-<id> repo.",
   "scripts": {
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "verify": "node scripts/verify-releases.mjs"
   },
   "devDependencies": {
     "esbuild": "0.28.2"

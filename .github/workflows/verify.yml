@@ -1,0 +1,15 @@
+name: verify-releases
+# The catalog must only list packages that exist and match their sha256. Runs when index.json changes, daily, and on demand.
+on:
+  push: { branches: [main], paths: [index.json, scripts/verify-releases.mjs] }
+  schedule: [{ cron: "17 6 * * *" }]
+  workflow_dispatch:
+permissions: { contents: read }
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm run verify

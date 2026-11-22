@@ -68,7 +68,8 @@
         "settingsPanel"
       ],
       "package": "https://github.com/victorl1m/floq-plugin-waha/releases/download/v3.1.0/waha-3.1.0.floqpkg.json",
-      "sha256": "51c0a96684c09747f60c64c26f8b9c8f754e95ac3784d980f7dc893c1d21b681"
+      "sha256": "51c0a96684c09747f60c64c26f8b9c8f754e95ac3784d980f7dc893c1d21b681",
+      "deprecated": "WhatsApp is now built into Floq: Settings > Integrations. Update Floq to use it; your chats, accounts and settings carry over and this plugin is switched off by itself."
     }
   ]
 }

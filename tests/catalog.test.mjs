@@ -21,6 +21,12 @@ test("Floq's catalog parser accepts every entry in index.json", () => {
   assert.deepEqual(parseCatalog(raw).map((e) => e.id), listed);
 });
 
+test("WhatsApp (waha) is listed as deprecated: Floq has it built in under Settings > Integrations", () => {
+  const waha = parseCatalog(raw).find((e) => e.id === "waha");
+  assert.match(waha.deprecated, /built into Floq: Settings > Integrations/);
+  assert.deepEqual(parseCatalog(raw).filter((e) => e.deprecated).map((e) => e.id), ["waha"]);
+});
+
 test("each entry points at its own plugin repo's release for the same version", () => {
   for (const e of JSON.parse(raw).plugins) {
     assert.equal(e.package, `https://github.com/victorl1m/floq-plugin-${e.id}/releases/download/v${e.version}/${e.id}-${e.version}.floqpkg.json`);
